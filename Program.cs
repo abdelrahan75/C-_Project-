@@ -15,33 +15,34 @@
        
         static void Main(string[] args)
         {
-            var exam = new Question_list("Exam_Questions.txt");
+            var subject = new Subject("C# Programming", "CS301");
 
+            var q1 = new True_OR_False_qusetion("OOP", "Is C# object-oriented?", 5);
+            q1.SetCorrectAnswer(true);
 
-            var tfQ = new True_OR_False_qusetion("Q1", "The Earth revolves around the Sun.", 2);
-            tfQ.SetCorrectAnswer(isTrue: true);
-            tfQ.answer_your_qui =  true ;
-            exam.Add(tfQ);
+            var q2 = new Choose_One_Question("Types", "Which is a value type?", 10);
+            q2.AnswerList.Add(new Answer("string", false));
+            q2.AnswerList.Add(new Answer("int", true));
+            q2.AnswerList.Add(new Answer("object", false));
 
-            var chooseOne = new Choose_One_Question("Q2", "Which planet is closest to the Sun?", 4);
-            chooseOne.AnswerList.Add(new Answer("Earth", isCorrect: false));
-            chooseOne.AnswerList.Add(new Answer("Mercury", isCorrect: true));
-            chooseOne.AnswerList.Add(new Answer("Venus", isCorrect: false));
-            chooseOne.AnswerList.Add(new Answer("Mars", isCorrect: false));
-            chooseOne.answer_your_qui = (int)ans_of_one_choose.frist;
-            exam.Add(chooseOne);
+            var q3 = new Choose_all_Qusetion("OOP Pillars", "Select all OOP pillars:", 15);
+            q3.AnswerList.Add(new Answer("Encapsulation", true));
+            q3.AnswerList.Add(new Answer("Compilation", false));
+            q3.AnswerList.Add(new Answer("Inheritance", true));
 
+            var practiceExam = new PracticeExam(subject, TimeSpan.FromMinutes(30));
+            practiceExam.AddQuestion(q1, q1.AnswerList[0]);
+            practiceExam.AddQuestion(q2, q2.AnswerList[1]);
+            practiceExam.AddQuestion(q3, q3.AnswerList[0]);
 
-            var chooseAll = new Choose_all_Qusetion("Q3", "Select all prime numbers.", 6);
-            chooseAll.AnswerList.Add(new Answer("2", isCorrect: true));
-            chooseAll.AnswerList.Add(new Answer("4", isCorrect: false));
-            chooseAll.AnswerList.Add(new Answer("7", isCorrect: true));
-            chooseAll.AnswerList.Add(new Answer("9", isCorrect: false));
-            chooseAll.AnswerList.Add(new Answer("11", isCorrect: true));
-            exam.Add(chooseAll);
+            var finalExam = new FinalExam(subject, TimeSpan.FromMinutes(90));
+            finalExam.AddQuestion(q1, q1.AnswerList[0]);
+            finalExam.AddQuestion(q2, q2.AnswerList[1]);
+            finalExam.AddQuestion(q3, q3.AnswerList[0]);
 
-            Console.WriteLine("===== Reading from log file =====\n");
-            exam.PrintLogFile();
+            Console.WriteLine("1. Practice Exam\n2. Final Exam\nChoice: ");
+            Exam selected = Console.ReadLine() == "1" ? practiceExam : finalExam;
+            selected.ShowExam();
         }
     }
 }
